@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ps" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>افغان آمازون</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <h1>افغان آمازون</h1>
+    </div>
+    <nav class="nav">
+      <a href="/index.html" class="lang-switch">English Version</a>
+    </nav>
+  </header>
+  
+  <div id="city-links" class="city-menu">
+    <a href="#" onclick="showCityProducts('جلاال اباد')" class="city-link">جلاال اباد</a>
+    <a href="#" onclick="showCityProducts('کابل')" class="city-link">کابل</a>
+    <a href="#" onclick="showCityProducts('کندهار')" class="city-link">کندهار</a>
+    <a href="#" onclick="showCityProducts('هرات')" class="city-link">هرات</a>
+    <a href="#" onclick="showCityProducts('بلخ')" class="city-link">بلخ</a>
+  </div>
+  
+  <button id="toggle-content" class="toggle-button">محصولات</button>
+  
+  <main class="main-content">
+    <h1 class="main-title">افغان آمازون ته پخیر راغلی</h1>
+    <h2 class="subtitle">ډیر ژر!!</h2>
+    
+    <section id="auth" class="content-section hidden-content">
+      <h2 class="section-title">ثبت نام</h2>
+      <div class="input-group">
+        <input id="reg-username" placeholder="نوم" class="input-field">
+        <input id="reg-password" type="password" placeholder="پټ نوم" class="input-field">
+        <select id="reg-role" class="input-field">
+          <option value="buyer">خریدار</option>
+          <option value="seller">پلورونکی</option>
+        </select>
+        <button onclick="register()" class="action-button">ثبت نام کول</button>
+      </div>
+      <h2 class="section-title">ننوتل</h2>
+      <div class="input-group">
+        <input id="login-username" placeholder="نوم" class="input-field">
+        <input id="login-password" type="password" placeholder="پټ نوم" class="input-field">
+        <button onclick="login()" class="action-button">ننوتل</button>
+      </div>
+    </section>
+    
+    <section id="seller-panel" class="content-section hidden-content" style="display:none;">
+      <h2 class="section-title">پلورونکی تخته</h2>
+      <div class="input-group">
+        <input id="product-name" placeholder="د محصول نوم" class="input-field">
+        <input id="product-price" type="number" placeholder="بیه" step="0.01" class="input-field">
+        <select id="product-location" class="input-field"></select>
+        <button onclick="addProduct()" class="action-button">د محصول اضافه کول</button>
+      </div>
+    </section>
+    
+    <section id="products" class="content-section hidden-content">
+      <h2 class="section-title">محصولات</h2>
+      <p class="section-description">دلته به تاسو د خپل کور او ورځني ژوند لپاره اړین ټول توکي ومومئ.</p>
+      <p class="section-description">د کټګوریو پر کلیک د ښارونو له مخې توکي وګورئ.</p>
+      <div id="category-menu" class="category-menu">
+        <button onclick="filterProducts('Grocery')" class="category-button">غوښې</button>
+        <button onclick="filterProducts('Wearing Stuff')" class="category-button">اغوستل مواد</button>
+        <button onclick="filterProducts('Electronic')" class="category-button">بریښنايي توکي</button>
+        <button onclick="filterProducts('Sports')" class="category-button">لوبې وسایل</button>
+      </div>
+      <ul id="product-list" class="product-list"></ul>
+      <div id="debug-output" class="debug-output"></div>
+    </section>
+    
+    <section id="cart" class="content-section hidden-content" style="display:none;">
+      <h2 class="section-title">ستاسو کارټ</h2>
+      <ul id="cart-list" class="product-list"></ul>
+      <select id="pickup-location" class="input-field"></select>
+      <button onclick="checkout()" class="action-button">خرید پای ته رسول (ننداره)</button>
+    </section>
+    
+    <section id="contact" class="content-section hidden-content">
+      <h2 class="section-title">موږ سره اړیکه ونیسئ</h2>
+      <p class="contact-info"><a href="mailto:afghanamazon@gmail.com?subject=د افغان آمازون په اړه پوښتنه" class="contact-link">ایمیل: afghanamazon@gmail.com</a></p>
+      <h3 class="sub-section-title">موږ سره کار وکړئ</h3>
+      <p class="contact-info"><a href="mailto:Adil@afghanamazon.job.af?subject=د Afghan Amazon لپاره ریزوم" class="contact-link">خپل ریزوم واستوئ: Adil@afghanamazon.job.af</a></p>
+      <h4 class="sub-section-title">زموږ سره زنګ ووهئ</h4>
+      <p class="contact-info">تلیفون: +93 172 723 6756</p>
+    </section>
+  </main>
+  
+  <footer class="footer">
+    <p>&copy; 2025 افغان آمازون. ټول حقونه خوندي دي.</p>
+  </footer>
+  
+  <script src="script.js"></script>
+</body>
+</html>
