@@ -50,6 +50,22 @@ function populateCityDropdowns(cities) {
     ).join('');
   });
 }
+// City name mapping for Pashto/English
+function mapCityName(city) {
+  const cityMap = {
+    'جلال آباد': 'Jalalabad',
+    'کابل': 'Kabul',
+    'کندهار': 'Kandahar', 
+    'هرات': 'Herat',
+    'بلخ': 'Balkh',
+    'Jalalabad': 'جلال آباد',
+    'Kabul': 'کابل',
+    'Kandahar': 'کندهار',
+    'Herat': 'هرات',
+    'Balkh': 'بلخ'
+  };
+  return cityMap[city] || city;
+}
 
 // Load branches for selected city
 function loadBranches(city = '') {
