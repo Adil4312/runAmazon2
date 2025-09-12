@@ -26,39 +26,37 @@ if (rowCount.count === 0) {
   const insert = db.prepare('INSERT INTO products (name, price, category, location) VALUES (?, ?, ?, ?)');
   insert.run('Afghan Rug', 49.99, 'Home', 'Kabul');
   insert.run('Green Tea', 5.99, 'Grocery', 'Jalalabad');
-  insert.run('Traditional Hat', 12.99, 'Wearing Stuff', 'Kandahar');
-  insert.run('Handcrafted Jewelry', 24.99, 'Accessories', 'Herat');
-  insert.run('Dried Fruits', 8.99, 'Grocery', 'Balkh');
 }
 
 // Middleware
 app.use(bodyParser.json());
-
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Serve favicon.ico
-app.get('/favicon.ico', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'favicon.ico'));
-});
+app.use(express.static('public'));
 
 // API routes
 app.get('/api/products', (req, res) => {
-  const stmt = db.prepare('SELECT * FROM products');
-  const products = stmt.all();
-  res.json(products);
+  try {
+    const stmt = db.prepare('SELECT * FROM products');
+    const products = stmt.all();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.post('/api/products', (req, res) => {
-  const { name, price, category, location } = req.body;
-  const stmt = db.prepare('INSERT INTO products (name, price, category, location) VALUES (?, ?, ?, ?)');
-  const info = stmt.run(name, price, category, location);
-  res.json({ id: info.lastInsertRowid, name, price, category, location });
+  try {
+    const { name, price, category, location } = req.body;
+    const stmt = db.prepare('INSERT INTO products (name, price, category, location) VALUES (?, ?, ?, ?)');
+    const info = stmt.run(name, price, category, location);
+    res.json({ id: info.lastInsertRowid, name, price, category, location });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
-// Handle all other routes by serving index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
 // Export for Vercel serverless
