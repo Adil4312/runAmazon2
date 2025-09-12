@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" href="/favicon.ico" type="image/x-icon">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Afghan Amazon</title>
+  <title>Afghan Amazon - World Class Shopping</title>
   <link rel="stylesheet" href="/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
@@ -15,23 +14,48 @@
     </div>
     <nav class="nav">
       <a href="/pashto.html" class="lang-switch">پښتو نسخه</a>
+      <a href="#" onclick="logout()" class="logout-btn">Logout</a>
     </nav>
   </header>
   
   <div id="city-links" class="city-menu">
-    <a href="#" onclick="showCityProducts('Jalalabad')" class="city-link">Jalalabad</a>
-    <a href="#" onclick="showCityProducts('Kabul')" class="city-link">Kabul</a>
-    <a href="#" onclick="showCityProducts('Kandahar')" class="city-link">Kandahar</a>
-    <a href="#" onclick="showCityProducts('Herat')" class="city-link">Herat</a>
-    <a href="#" onclick="showCityProducts('Balkh')" class="city-link">Balkh</a>
+    <a href="#" onclick="selectCity('Jalalabad')" class="city-link">Jalalabad</a>
+    <a href="#" onclick="selectCity('Kabul')" class="city-link">Kabul</a>
+    <a href="#" onclick="selectCity('Kandahar')" class="city-link">Kandahar</a>
+    <a href="#" onclick="selectCity('Herat')" class="city-link">Herat</a>
+    <a href="#" onclick="selectCity('Balkh')" class="city-link">Balkh</a>
   </div>
   
-  <button id="toggle-content" class="toggle-button">Explore Content</button>
+  <div id="selected-city" class="selected-city">
+    Select a city to view products and branches
+  </div>
+  
+  <button id="toggle-content" class="toggle-button">Explore All Features</button>
   
   <main class="main-content">
     <h1 class="main-title">Welcome to Afghan Amazon</h1>
-    <h2 class="subtitle">Coming Soon!</h2>
+    <h2 class="subtitle">World Class Shopping Experience Across Afghanistan</h2>
     
+    <!-- Branches Map Section -->
+    <section id="branches-map" class="content-section">
+      <h2 class="section-title">Our Branches Network</h2>
+      <p class="section-description">We have 10 conveniently located branches in each major city for easy access</p>
+    </section>
+    
+    <!-- Customer Registration -->
+    <section id="customer-form" class="content-section hidden-content">
+      <h2 class="section-title">Customer Registration</h2>
+      <div class="input-group">
+        <input id="customer-name" placeholder="Full Name" class="input-field">
+        <input id="customer-email" type="email" placeholder="Email Address" class="input-field">
+        <input id="customer-phone" placeholder="Phone Number" class="input-field">
+        <input id="customer-address" placeholder="Address" class="input-field">
+        <input id="customer-city" placeholder="City" class="input-field">
+        <button onclick="registerCustomer()" class="action-button">Register Customer</button>
+      </div>
+    </section>
+    
+    <!-- Authentication Section -->
     <section id="auth" class="content-section hidden-content">
       <h2 class="section-title">Register</h2>
       <div class="input-group">
@@ -51,49 +75,61 @@
       </div>
     </section>
     
+    <!-- Seller Panel -->
     <section id="seller-panel" class="content-section hidden-content" style="display:none;">
       <h2 class="section-title">Seller Dashboard</h2>
       <div class="input-group">
         <input id="product-name" placeholder="Product Name" class="input-field">
         <input id="product-price" type="number" placeholder="Price" step="0.01" class="input-field">
-        <select id="product-location" class="input-field"></select>
+        <input id="product-category" placeholder="Category" class="input-field">
+        <select id="product-location" class="input-field city-dropdown"></select>
+        <select id="product-branch" class="input-field branch-dropdown"></select>
         <button onclick="addProduct()" class="action-button">Add Product</button>
       </div>
     </section>
     
+    <!-- Products Section -->
     <section id="products" class="content-section hidden-content">
       <h2 class="section-title">Products</h2>
       <p class="section-description">Discover all the essentials you need for your home and daily life.</p>
-      <p class="section-description">Click a category to explore items by city.</p>
+      <p class="section-description">Click a category to explore items by city and branch.</p>
       <div id="category-menu" class="category-menu">
         <button onclick="filterProducts('Grocery')" class="category-button">Grocery</button>
         <button onclick="filterProducts('Wearing Stuff')" class="category-button">Wearing Stuff</button>
         <button onclick="filterProducts('Electronic')" class="category-button">Electronic</button>
         <button onclick="filterProducts('Sports')" class="category-button">Sports</button>
+        <button onclick="filterProducts('Home')" class="category-button">Home</button>
+        <button onclick="filterProducts('Accessories')" class="category-button">Accessories</button>
       </div>
       <ul id="product-list" class="product-list"></ul>
-      <div id="debug-output" class="debug-output"></div>
     </section>
     
+    <!-- Shopping Cart -->
     <section id="cart" class="content-section hidden-content" style="display:none;">
-      <h2 class="section-title">Your Cart</h2>
+      <h2 class="section-title">Your Shopping Cart</h2>
       <ul id="cart-list" class="product-list"></ul>
-      <select id="pickup-location" class="input-field"></select>
-      <button onclick="checkout()" class="action-button">Checkout (Mock)</button>
+      <div class="input-group">
+        <input id="customer-email-checkout" type="email" placeholder="Your Email for Order Confirmation" class="input-field">
+        <select id="pickup-branch" class="input-field branch-dropdown"></select>
+        <button onclick="checkout()" class="action-button">Complete Purchase</button>
+      </div>
     </section>
     
+    <!-- Contact Section -->
     <section id="contact" class="content-section hidden-content">
       <h2 class="section-title">Contact Us</h2>
       <p class="contact-info"><a href="mailto:Adil@afghanamazon.job.af?subject=Inquiry about Afghan Amazon" class="contact-link">Email: Adil@afghanamazon.job.af</a></p>
       <h3 class="sub-section-title">Work With Us</h3>
       <p class="contact-info"><a href="mailto:Adil@afghanamazon.job.af?subject=Resume for Afghan Amazon" class="contact-link">Send your resume: Adil@afghanamazon.job.af</a></p>
       <h4 class="sub-section-title">Call Us</h4>
-      <p class="contact-info">Phone: +93**********</p>
+      <p class="contact-info">Phone: +93 123 456 789</p>
+      <h4 class="sub-section-title">Visit Our Main Branch</h4>
+      <p class="contact-info">Street 1, District 1, Kabul, Afghanistan</p>
     </section>
   </main>
   
   <footer class="footer">
-    <p>&copy; 2025 Afghan Amazon. All rights reserved.</p>
+    <p>&copy; 2025 Afghan Amazon. All rights reserved. | 50+ Branches Across Afghanistan</p>
   </footer>
   
   <script src="/script.js"></script>
