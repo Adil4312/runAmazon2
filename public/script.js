@@ -5,7 +5,10 @@ let cart = [];
 // DOM ready event
 document.addEventListener('DOMContentLoaded', function() {
   // Set up event listeners
-  document.getElementById('toggle-content').addEventListener('click', toggleContent);
+  const toggleButton = document.getElementById('toggle-content');
+  if (toggleButton) {
+    toggleButton.addEventListener('click', toggleContent);
+  }
   
   // Load cities for dropdowns
   loadCities();
@@ -41,13 +44,13 @@ function loadCities() {
   
   if (productLocation) {
     productLocation.innerHTML = cities.map(city => 
-      `${city}`
+      `<option value="${city}">${city}</option>`
     ).join('');
   }
   
   if (pickupLocation) {
     pickupLocation.innerHTML = cities.map(city => 
-      `${city}`
+      `<option value="${city}">${city}</option>`
     ).join('');
   }
 }
@@ -129,13 +132,19 @@ function updateUI() {
 
 // Load products from API
 function loadProducts() {
+  // Try to fetch from API first
   fetch('/api/products')
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('API not available');
+      }
+      return response.json();
+    })
     .then(products => {
       displayProducts(products);
     })
     .catch(error => {
-      console.error('Error loading products:', error);
+      console.error('Error loading products from API:', error);
       // Fallback to mock data if API fails
       displayProducts(getMockProducts());
     });
@@ -147,19 +156,13 @@ function displayProducts(products) {
   if (!productList) return;
   
   productList.innerHTML = products.map(product => `
-    
-
-      
-
-        ${product.name} - $${product.price}
-        
-Category: ${product.category || 'N/A'}, Location: ${product.location || 'N/A'}
-
-      
-
-      Add to Cart
-    
-
+    <li>
+      <div>
+        <strong>${product.name}</strong> - $${product.price}
+        <div>Category: ${product.category || 'N/A'}, Location: ${product.location || 'N/A'}</div>
+      </div>
+      <button onclick="addToCart(${product.id}, '${product.name}', ${product.price})">Add to Cart</button>
+    </li>
   `).join('');
 }
 
@@ -187,22 +190,26 @@ function updateCart() {
   if (!cartList) return;
   
   cartList.innerHTML = cart.map(item => `
-    
-${item.name} - $${item.price}
-
+    <li>${item.name} - $${item.price}</li>
   `).join('');
 }
 
 // Filter products by category
 function filterProducts(category) {
+  // Try to fetch from API first
   fetch('/api/products')
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('API not available');
+      }
+      return response.json();
+    })
     .then(products => {
       const filtered = products.filter(product => product.category === category);
       displayProducts(filtered);
     })
     .catch(error => {
-      console.error('Error filtering products:', error);
+      console.error('Error filtering products from API:', error);
       // Fallback to mock filtering
       const mockProducts = getMockProducts();
       const filtered = mockProducts.filter(product => product.category === category);
@@ -212,14 +219,20 @@ function filterProducts(category) {
 
 // Show products by city
 function showCityProducts(city) {
+  // Try to fetch from API first
   fetch('/api/products')
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('API not available');
+      }
+      return response.json();
+    })
     .then(products => {
       const filtered = products.filter(product => product.location === city);
       displayProducts(filtered);
     })
     .catch(error => {
-      console.error('Error filtering by city:', error);
+      console.error('Error filtering by city from API:', error);
       // Fallback to mock filtering
       const mockProducts = getMockProducts();
       const filtered = mockProducts.filter(product => product.location === city);
@@ -247,7 +260,12 @@ function addProduct() {
     },
     body: JSON.stringify({ name, price, category, location })
   })
-  .then(response => response.json())
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('API not available');
+    }
+    return response.json();
+  })
   .then(product => {
     alert(`Product "${product.name}" added successfully!`);
     // Clear form
@@ -267,7 +285,9 @@ function addProduct() {
       category, 
       location 
     };
-    displayProducts([...getMockProducts(), newProduct]);
+    const mockProducts = getMockProducts();
+    mockProducts.push(newProduct);
+    displayProducts(mockProducts);
   });
 }
 

@@ -6,8 +6,8 @@ const Database = require('better-sqlite3');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Initialize database - use in-memory for Vercel or provide persistent solution
-const db = new Database(process.env.DB_PATH || ':memory:');
+// Initialize database - use in-memory for Vercel
+const db = new Database(':memory:');
 
 // Create table if it doesn't exist
 db.exec(`
@@ -27,20 +27,15 @@ if (rowCount.count === 0) {
   insert.run('Afghan Rug', 49.99, 'Home', 'Kabul');
   insert.run('Green Tea', 5.99, 'Grocery', 'Jalalabad');
   insert.run('Traditional Hat', 12.99, 'Wearing Stuff', 'Kandahar');
+  insert.run('Handcrafted Jewelry', 24.99, 'Accessories', 'Herat');
+  insert.run('Dried Fruits', 8.99, 'Grocery', 'Balkh');
 }
 
 // Middleware
 app.use(bodyParser.json());
-app.use(express.static('public'));
 
-// Serve HTML files
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.get('/pashto.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'pashto.html'));
-});
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // API routes
 app.get('/api/products', (req, res) => {
