@@ -8,6 +8,11 @@ const port = process.env.PORT || 3000;
 
 // Initialize database - use in-memory for Vercel
 const db = new Database(':memory:');
+// Add CSP headers to prevent eval() errors
+app.use((req, res, next) => {
+  res.setHeader('Content-Security-Policy', "script-src 'self' 'unsafe-inline'");
+  next();
+});
 
 // Create table if it doesn't exist
 db.exec(`
