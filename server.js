@@ -37,6 +37,11 @@ app.use(bodyParser.json());
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Serve favicon.ico
+app.get('/favicon.ico', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'favicon.ico'));
+});
+
 // API routes
 app.get('/api/products', (req, res) => {
   const stmt = db.prepare('SELECT * FROM products');
@@ -49,6 +54,11 @@ app.post('/api/products', (req, res) => {
   const stmt = db.prepare('INSERT INTO products (name, price, category, location) VALUES (?, ?, ?, ?)');
   const info = stmt.run(name, price, category, location);
   res.json({ id: info.lastInsertRowid, name, price, category, location });
+});
+
+// Handle all other routes by serving index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Export for Vercel serverless
