@@ -1,40 +1,24 @@
 {
-  "name": "afghan-amazon-client",
+  "name": "afghan-amazon",
   "version": "1.0.0",
-  "description": "React frontend for Afghan Amazon",
-  "main": "index.js",
+  "description": "Afghan Amazon E-commerce Platform",
+  "main": "server.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "node server.js",
+    "dev": "node server.js"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.15.0",
-    "react-scripts": "5.0.1",
-    "axios": "^1.5.0",
-    "react-query": "^3.39.3",
-    "framer-motion": "^10.16.1",
-    "react-hook-form": "^7.45.4",
-    "react-hot-toast": "^2.4.1",
-    "react-icons": "^4.10.1",
-    "swiper": "^10.2.0",
-    "leaflet": "^1.9.4",
-    "react-leaflet": "^4.2.1",
-    "lucide-react": "^0.263.1"
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2",
+    "better-sqlite3": "^9.6.0",
+    "cors": "^2.8.5",
+    "socket.io": "^4.7.2"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "keywords": [
+    "ecommerce",
+    "afghanistan",
+    "shopping"
+  ],
+  "author": "Adil4312",
+  "license": "MIT"
 }

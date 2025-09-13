@@ -146,9 +146,7 @@ if (branchCount.count === 0) {
 }
 
 // Middleware
-app.use(cors());
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Socket.io for real-time features
